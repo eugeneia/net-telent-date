@@ -1,5 +1,9 @@
 (in-package :net.telent.date)
 
+;;; TODO: Add all known zone strings.
+;;; 2013-02-19: Added constant for CET, (hopefully) fixed time zone
+;;; conversions.
+
 ;;; **********************************************************************
 ;;; This code was written as part of the CMU Common Lisp project at
 ;;; Carnegie Mellon University, and has been placed in the public domain.
@@ -43,17 +47,17 @@
 (defparameter special-table-size 11)
 
 (defvar *weekday-strings* (make-hash-table :test #'equal
-					 :size weekday-table-size))
+					   :size weekday-table-size))
 
 (defvar *month-strings* (make-hash-table :test #'equal
-				       :size month-table-size))
+					 :size month-table-size))
 
 (defvar *zone-strings* (make-hash-table :test #'equal
-				      :size zone-table-size))
+					:size zone-table-size))
 
 (defvar *special-strings* (make-hash-table :test #'equal
-					 :size special-table-size))
-
+					   :size special-table-size))
+
 ;;; Load-time creation of the hash tables.
 
 (hashlist '(("monday" . 0)    ("mon" . 0)
@@ -79,17 +83,17 @@
 	    ("december" . 12) ("dec" . 12))
 	  *month-strings*)
 
-(hashlist '(("gmt" . 0) ("est" . 5)
-	    ("edt" . 4) ("cst" . 6)
-	    ("cdt" . 5) ("mst" . 7)
-	    ("mdt" . 6)	("pst" . 8)
-	    ("pdt" . 7)) 
+(hashlist '(("gmt" . 0) ("cet" . 1)
+	    ("est" . 5) ("edt" . 4)
+	    ("cst" . 6) ("cdt" . 5)
+	    ("mst" . 7) ("mdt" . 6)
+	    ("pst" . 8) ("pdt" . 7))
 	  *zone-strings*)
 
 (hashlist '(("yesterday" . yesterday)  ("today" . today)
 	    ("tomorrow" . tomorrow)   ("now" . now))
 	  *special-strings*)
-
+
 ;;; Time/date format patterns are specified as lists of symbols repre-
 ;;; senting the elements.  Optional elements can be specified by
 ;;; enclosing them in parentheses.  Note that the order in which the
@@ -198,7 +202,7 @@
     ((weekday) month day
      hour time-divider minute (time-divider) (secondp) year)))
 
-
+
 ;;; The decoded-time structure holds the time/date values which are
 ;;; eventually passed to 'encode-universal-time' after parsing.
 
@@ -279,13 +283,9 @@
 			   (decoded-time-day parsed-values)
 			   (decoded-time-month parsed-values)
 			   (decoded-time-year parsed-values)
-			   (if (or (> zone 24) (< zone -24))
-			       (let ((new-zone (/ zone 100)))
-				 (cond ((minusp new-zone) (- new-zone))
-				       ((plusp new-zone) (- 24 new-zone))
-				       ;; must be zero (GMT)
-				       (t new-zone)))
-			       zone))))
+			   (- (if (or (> zone 24) (< zone -24))
+				  (/ zone 100)
+				  zone)))))
 
 ;;; Sets the current values for the time and/or date parts of the 
 ;;; decoded time structure.
@@ -306,7 +306,7 @@
       (setf (decoded-time-dotw values-structure) dotw))
     (when zone
       (setf (decoded-time-zone values-structure) tz))))
-
+
 ;;; Special function definitions.  To define a special substring, add
 ;;; a dotted pair consisting of the substring and a symbol in the
 ;;; *special-strings* hashlist statement above.  Then define a function
@@ -330,7 +330,7 @@
 
 (defun now (parsed-values)
   (set-current-value parsed-values :time t))
-
+
 ;;; Predicates for symbols.  Each symbol has a corresponding function
 ;;; defined here which is applied to a part of the datum to see if
 ;;; it matches the qualifications.
@@ -394,7 +394,7 @@
 (defun date-divider (character)
   (and (characterp character)
        (member character date-dividers :test #'char=)))
-
+
 ;;; Match-substring takes a string argument and tries to match it with
 ;;; the strings in one of the four hash tables: *weekday-strings*, *month-
 ;;; strings*, *zone-strings*, *special-strings*.  It returns a specific
@@ -419,7 +419,7 @@
 	    (error "\"~A\" is not a recognized word or abbreviation."
 		   substring)
 	    (return-from match-substring nil)))))
-
+
 ;;; Decompose-string takes the time/date string and decomposes it into a
 ;;; list of alphabetic substrings, numbers, and special divider characters.
 ;;; It matches whatever strings it can and replaces them with a dotted pair
@@ -496,7 +496,7 @@
 				   ~%~VT^-- Bogus character encountered here."
 		  :format-arguments (list string (+ string-index 4)))
 		 (return-from decompose-string nil)))))))
-
+
 ;;; Match-pattern-element tries to match a pattern element with a datum
 ;;; element and returns the symbol associated with the datum element if
 ;;; successful.  Otherwise nil is returned.
@@ -540,7 +540,7 @@
 				(push matching form-list))))
 		  (optional (push datum-element datum))
 		  (t (return-from match-pattern nil))))))))
-
+
 ;;; Deal-with-noon-midn sets the decoded-time values to either noon
 ;;; or midnight depending on the argument form-value.  Form-value
 ;;; can be either 'noon or 'midn.
@@ -599,7 +599,7 @@
 	(noon-midn (deal-with-noon-midn form-value parsed-values))
 	(special (funcall form-value parsed-values))
 	(t (error "Unrecognized symbol in form list: ~A." form-type))))))
-
+
 (defun parse-time (time-string &key (start 0) (end (length time-string))
 			       (error-on-mismatch nil)
 			       (patterns *default-date-time-patterns*)
