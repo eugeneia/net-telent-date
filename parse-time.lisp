@@ -1,6 +1,11 @@
 (in-package :net.telent.date)
 
-;;; TODO: Add all known zone strings.
+;;; **********************************************************************
+;;; Edits by Max Rottenkolber <max@mr.gy>:
+;;;
+;;; 2014-03-20: Extended and fixed *ZONE-STRINGS*. Verified time zone
+;;; conversions.
+;;;
 ;;; 2013-02-19: Added constant for CET, (hopefully) fixed time zone
 ;;; conversions.
 
@@ -65,12 +70,74 @@
               ("november" . 11) ("nov" . 11)
               ("december" . 12) ("dec" . 12))))
 
+;; https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
+;;
+;; Conflict policy is to prefer international or widespread
+;; interpretations and to omit abbreviations if two local interpretations
+;; differ.
+;;
+;; * Omit AMST: Conflict between Amazon and Armenian Summer Time.
+;; * Omit AST: Conflict between Amazon and Armenian Standard Time.
+;; * AST: Prefer Atlantic over Arabic Standard Time.
+;; * BST: Prefer British Summer Time over Bangladesh Standard Time.
+;; * CDT: Prefer Central Daylight Time over Cuba Daylight Time.
+;; * CST: Prefer Central Standard Time over the others.
+;; * ECT: Prefer Eastern Caribbean Time over Equador Time.
+;; * EST: Prefer North American Eastern Standard Time.
+;; * GST: Prefer Gulf STandard Time over South Georgia and the South
+;;   Sandwich Islands.
+;; * Omit IST: Conflict between Irish, Israel nd Indian Standard Time.
+;; * Omit LHST: Conflict between Lord Howe Standard Time and Lord Howe
+;;   Summer Time.
+;; * MST: Prefer Mountain (North Amrica) over Myanmar and Malaysia
+;;   Standard Time.
+;; * SST: Prefer Samoa over SIngapore Standard Time because Singapore
+;;   already has SGT.
 (defparameter *zone-strings*
-  (hashlist '(("gmt" . 0) ("cet" . 1)
-              ("est" . 5) ("edt" . 4)
-              ("cst" . 6) ("cdt" . 5)
-              ("mst" . 7) ("mdt" . 6)
-              ("pst" . 8) ("pdt" . 7))))
+  (hashlist '(("acdt" . 10.5) ("acst" . 9.5) ("act" . 8) ("adt" . -3)
+              ("aedt" . 11) ("aest" . 10) ("aft" . 4.5) ("akdt" . -8)
+              ("akst" . -9) ("art" . -3) ("ast" . -4) ("awdt" . 9)
+              ("awst" . 8) ("azost" . -1) ("azt" . 4) ("bdt" . 8)
+              ("biot" . 6) ("bit" . -12) ("bot" . -4) ("brt" . -3)
+              ("bst" . 1) ("btt" . 6) ("cat" . 2) ("cct" . 6.5)
+              ("cdt" . -5) ("cedt" . 2) ("cest" . 2) ("cet" . 1)
+              ("chadt" . 13.75) ("chast" . 12.75) ("chot" . 8)
+              ("chst" . 10) ("chut" . 10) ("cist" . -8) ("cit" . 8)
+              ("ckt" . -10) ("clst" . -3) ("clt" . -4) ("cost" . -4)
+              ("cot" . -5) ("cst" . -6) ("ct" . 8) ("cvt" . -1)
+              ("cwst" . 8.75) ("cxt" . 7) ("davt" . 7) ("ddut" . 10)
+              ("dft" . 1) ("easst" . -5) ("east" . -6) ("eat" . 3)
+              ("ect" . -4) ("edt" . -4) ("eedt" . 3) ("eest" . 3)
+              ("eet" . 2) ("egst" . 0) ("egt" . -1) ("eit" . 9)
+              ("est" . -5) ("fet" . 3) ("fjt" . 12) ("fkst" . -3)
+              ("fkt" . -4) ("fnt" . -2) ("galt" . -6) ("gamt" . -9)
+              ("get" . 4) ("gft" . -3) ("gilt" . 12) ("git" . -9)
+              ("gmt" . 0) ("gst" . 4) ("gyt" . -4) ("hadt" . -9)
+              ("haec" . 2) ("hast" . -10) ("hkt" . 8) ("hmt" . 5)
+              ("hovt" . 7) ("hst" . -10) ("ict" . 7) ("idt" . 3)
+              ("iot" . 3) ("irdt" . 4.5) ("irkt" . 9) ("irst" . 3.5)
+              ("jst" . 9) ("kgt" . 6) ("kost" . 11) ("krat" . 7)
+              ("kst" . 9) ("lint" . 14) ("magt" . 12) ("mart" . -9.5)
+              ("mawt" . 5) ("mdt" . -6) ("mest" . 2) ("met" . 1)
+              ("mht" . 12) ("mist" . 11) ("mit" . -9.5) ("mmt" . 6.5)
+              ("msk" . 4) ("mst" . 6.5) ("mut" . 4) ("mvt" . 5)
+              ("myt" . 8) ("nct" . 11) ("ndt" . -2.5) ("nft" . 11.5)
+              ("npt" . 5.75) ("nst" . -3.5) ("nt" . -3.5) ("nut" . -11)
+              ("nzdt" . 13) ("nzst" . 12) ("omst" . 7) ("orat" . 5)
+              ("pdt" . -7) ("pet" . -5) ("pett" . 12) ("pgt" . 10)
+              ("phot" . 13) ("pht" . 8) ("pkt" . 5) ("pmdt" . -2)
+              ("pmst" . -3) ("pont" . 11) ("pst" . -8) ("pyst" . -3)
+              ("pyt" . -4) ("ret" . 4) ("rott" . -3) ("sakt" . 11)
+              ("samt" . 4) ("sast" . 2) ("sbt" . 11) ("sct" . 4)
+              ("sgt" . 8) ("slst" . 5.5) ("srt" . -3) ("sst" . -11)
+              ("syot" . 3) ("taht" . -10) ("tft" . 5) ("tha" . 7)
+              ("tjt" . 5) ("tkt" . 13) ("tlt" . 9) ("tmt" . 5)
+              ("tot" . 13) ("tvt" . 12) ("uct" . 0) ("ulat" . 8)
+              ("utc" . 0) ("uyst" . -2) ("uyt" . -3) ("uzt" . 5)
+              ("vet" . -4.5) ("vlat" . 10) ("volt" . 4) ("vost" . 6)
+              ("vut" . 11) ("wakt" . 12) ("wast" . 2) ("wat" . 1)
+              ("wedt" . 1) ("west" . 1) ("wet" . 0) ("wst" . 8)
+              ("yakt" . 10) ("yekt" . 6) ("z" . 0))))
 
 (defparameter *special-strings*
   (hashlist '(("yesterday" . yesterday)  ("today" . today)
