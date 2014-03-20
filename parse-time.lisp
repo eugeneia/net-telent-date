@@ -33,66 +33,49 @@
 ;;; Set up hash tables for month, weekday, zone, and special strings.
 ;;; Provides quick, easy access to associated information for these items.
 
-;;; Hashlist takes an association list and hashes each pair into the
-;;; specified tables using the car of the pair as the key and the cdr as
-;;; the data object.
-
-(defmacro hashlist (list table)
-  `(dolist (item ,list)
-     (setf (gethash (car item) ,table) (cdr item))))
-
-(defparameter weekday-table-size 23)
-(defparameter month-table-size 31)
-(defparameter zone-table-size 11)
-(defparameter special-table-size 11)
-
-(defvar *weekday-strings* (make-hash-table :test #'equal
-					   :size weekday-table-size))
-
-(defvar *month-strings* (make-hash-table :test #'equal
-					 :size month-table-size))
-
-(defvar *zone-strings* (make-hash-table :test #'equal
-					:size zone-table-size))
-
-(defvar *special-strings* (make-hash-table :test #'equal
-					   :size special-table-size))
+(defun hashlist (alist)
+  "Return EQUAL hash table for ALIST."
+  (let ((table (make-hash-table :test #'equal :size (length alist))))
+    (dolist (item alist)
+      (setf (gethash (car item) table) (cdr item)))
+    table))
 
 ;;; Load-time creation of the hash tables.
 
-(hashlist '(("monday" . 0)    ("mon" . 0)
-	    ("tuesday" . 1)   ("tues" . 1)   ("tue" . 1)
-	    ("wednesday" . 2) ("wednes" . 2) ("wed" . 2)
-	    ("thursday" . 3)  ("thurs" . 3)  ("thu" . 3)
-	    ("friday" . 4)    ("fri" . 4)
-	    ("saturday" . 5)  ("sat" . 5)
-	    ("sunday" . 6)    ("sun" . 6))
-	  *weekday-strings*)
+(defparameter *weekday-strings*
+  (hashlist '(("monday" . 0)    ("mon" . 0)
+              ("tuesday" . 1)   ("tues" . 1)   ("tue" . 1)
+              ("wednesday" . 2) ("wednes" . 2) ("wed" . 2)
+              ("thursday" . 3)  ("thurs" . 3)  ("thu" . 3)
+              ("friday" . 4)    ("fri" . 4)
+              ("saturday" . 5)  ("sat" . 5)
+              ("sunday" . 6)    ("sun" . 6))))
 
-(hashlist '(("january" . 1)   ("jan" . 1)
-	    ("february" . 2)  ("feb" . 2)
-	    ("march" . 3)     ("mar" . 3)
-	    ("april" . 4)     ("apr" . 4)
-	    ("may" . 5)       ("june" . 6)
-	    ("jun" . 6)       ("july" . 7)
-	    ("jul" . 7)	      ("august" . 8)
-	    ("aug" . 8)       ("september" . 9)
-	    ("sept" . 9)      ("sep" . 9)
-	    ("october" . 10)  ("oct" . 10)
-	    ("november" . 11) ("nov" . 11)
-	    ("december" . 12) ("dec" . 12))
-	  *month-strings*)
+(defparameter *month-strings*
+  (hashlist '(("january" . 1)   ("jan" . 1)
+              ("february" . 2)  ("feb" . 2)
+              ("march" . 3)     ("mar" . 3)
+              ("april" . 4)     ("apr" . 4)
+              ("may" . 5)
+              ("june" . 6)      ("jun" . 6)
+              ("july" . 7)      ("jul" . 7)
+	      ("august" . 8)    ("aug" . 8)
+              ("september" . 9) ("sept" . 9) ("sep" . 9)
+              ("october" . 10)  ("oct" . 10)
+              ("november" . 11) ("nov" . 11)
+              ("december" . 12) ("dec" . 12))))
 
-(hashlist '(("gmt" . 0) ("cet" . 1)
-	    ("est" . 5) ("edt" . 4)
-	    ("cst" . 6) ("cdt" . 5)
-	    ("mst" . 7) ("mdt" . 6)
-	    ("pst" . 8) ("pdt" . 7))
-	  *zone-strings*)
+(defparameter *zone-strings*
+  (hashlist '(("gmt" . 0) ("cet" . 1)
+              ("est" . 5) ("edt" . 4)
+              ("cst" . 6) ("cdt" . 5)
+              ("mst" . 7) ("mdt" . 6)
+              ("pst" . 8) ("pdt" . 7))))
 
-(hashlist '(("yesterday" . yesterday)  ("today" . today)
-	    ("tomorrow" . tomorrow)   ("now" . now))
-	  *special-strings*)
+(defparameter *special-strings*
+  (hashlist '(("yesterday" . yesterday)  ("today" . today)
+              ("tomorrow" . tomorrow)   ("now" . now))))
+
 
 ;;; Time/date format patterns are specified as lists of symbols repre-
 ;;; senting the elements.  Optional elements can be specified by
