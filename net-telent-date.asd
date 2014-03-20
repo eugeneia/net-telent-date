@@ -1,10 +1,7 @@
-;;; -*-  Lisp -*-
-
-(defpackage :net-telent-date-system (:use #:cl #:asdf))
-(in-package :net-telent-date-system)
+;;; System definition for NET.TELENT.DATE.
 
 (defsystem net-telent-date
-    :version "0.41"
+    :version "0.43"
     :components ((:file "defpackage")
 		 (:file "date" :depends-on ("defpackage"))
 		 (:file "parse-time" :depends-on ("defpackage"))))
