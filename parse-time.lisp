@@ -413,14 +413,17 @@
 	     (t nil))))
 
 (defun weekday (string)
-  (and (simple-string-p string) (gethash string *weekday-strings*)))
+  (and (simple-string-p string)
+       (gethash (string-downcase string) *weekday-strings*)))
 
 (defun month (thing)
-  (or (and (simple-string-p thing) (gethash thing *month-strings*))
+  (or (and (simple-string-p thing)
+           (gethash (string-downcase thing) *month-strings*))
       (and (integerp thing) (<= 1 thing 12))))
 
 (defun zone (thing)
-  (or (and (simple-string-p thing) (gethash thing *zone-strings*))
+  (or (and (simple-string-p thing)
+           (gethash (string-downcase thing) *zone-strings*))
       (if (integerp thing)
 	  (let ((zone (/ thing 100)))
 	    (and (integerp zone) (<= -24 zone 24))))))
@@ -433,7 +436,8 @@
 	(and (<= -24 hours 24) (<= -59 mins 59)))))
 
 (defun special-string-p (string)
-  (and (simple-string-p string) (gethash string *special-strings*)))
+  (and (simple-string-p string)
+       (gethash (string-downcase string) *special-strings*)))
 
 (defun secondp (number)
   (and (integerp number) (<= 0 number 59)))
