@@ -70,6 +70,15 @@
               ("november" . 11) ("nov" . 11)
               ("december" . 12) ("dec" . 12))))
 
+
+;; COLLECTION OF TIME ZONES
+;;
+;; http://www.ietf.org/rfc/rfc822.txt
+;; 
+;; RFC (2)822 specifies UT to be equivalent to UTC and includes the
+;; military specifiers as well as EST, EDT, CST, CDT, MST, MDT, PST and
+;; PDT.
+;;
 ;; https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
 ;;
 ;; Conflict policy is to prefer international or widespread
@@ -120,7 +129,7 @@
               ("kst" . 9) ("lint" . 14) ("magt" . 12) ("mart" . -9.5)
               ("mawt" . 5) ("mdt" . -6) ("mest" . 2) ("met" . 1)
               ("mht" . 12) ("mist" . 11) ("mit" . -9.5) ("mmt" . 6.5)
-              ("msk" . 4) ("mst" . 6.5) ("mut" . 4) ("mvt" . 5)
+              ("msk" . 4) ("mst" . -7) ("mut" . 4) ("mvt" . 5)
               ("myt" . 8) ("nct" . 11) ("ndt" . -2.5) ("nft" . 11.5)
               ("npt" . 5.75) ("nst" . -3.5) ("nt" . -3.5) ("nut" . -11)
               ("nzdt" . 13) ("nzst" . 12) ("omst" . 7) ("orat" . 5)
@@ -137,7 +146,13 @@
               ("vet" . -4.5) ("vlat" . 10) ("volt" . 4) ("vost" . 6)
               ("vut" . 11) ("wakt" . 12) ("wast" . 2) ("wat" . 1)
               ("wedt" . 1) ("west" . 1) ("wet" . 0) ("wst" . 8)
-              ("yakt" . 10) ("yekt" . 6) ("z" . 0))))
+              ("yakt" . 10) ("yekt" . 6) ("ut" . 0)
+              ("a" . 1) ("b" . 2) ("c" . 3) ("d" . 4) ("e" . 5)
+              ("f" . 6) ("g" . 7) ("h" . 8) ("i" . 9) ("k" . 10)
+              ("l" . 11) ("m" . 12) ("n" . -1) ("o" . -2)
+              ("p" . -3) ("q" . -4) ("r" . -5) ("s" . -6)
+              ("t" . -7) ("u" . -8) ("v" . -9) ("w" . -10)
+              ("x" . -11) ("y" . -12) ("z" . 0))))
 
 (defparameter *special-strings*
   (hashlist '(("yesterday" . yesterday)  ("today" . today)

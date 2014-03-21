@@ -102,7 +102,7 @@ MIST Macquarie Island Station Time UTC+11
 MIT Marquesas Islands Time UTC-09:30
 MMT Myanmar Time UTC+06:30
 MSK Moscow Time UTC+04
-MST Myanmar Standard Time UTC+06:30
+MST Mountain Standard Time UTC-07
 MUT Mauritius Time UTC+04
 MVT Maldives Time UTC+05
 MYT Malaysia Time UTC+08
@@ -171,4 +171,29 @@ WET Western European Time UTC+00
 WST Western Standard Time UTC+08
 YAKT Yakutsk Time UTC+10
 YEKT Yekaterinburg Time UTC+06
+UT Universal Time UTC+00
+A Alpha Time Zone UTC+01
+B Bravo Time Zone UTC+02
+C Charlie Time Zone UTC+03
+D Delta Time Zone UTC+04
+E Echo Time Zone UTC+05
+F Foxtrot Time Zone UTC+06
+G Golf Time Zone UTC+07
+H Hotel Time Zone UTC+08
+I India Time Zone UTC+09
+K Kilo Time Zone UTC+10
+L Lima Time Zone UTC+11
+M Mike Time Zone UTC+12
+N November Time Zone UTC-01
+O Oscar Time Zone UTC-02
+P Papa Time Zone UTC-03
+Q Quebec Time Zone UTC-04
+R Romeo Time Zone UTC-05
+S Sierra Time Zone UTC-06
+T Tango Time Zone UTC-07
+U Uniform Time Zone UTC-08
+V Victor Time Zone UTC-09
+W Whiskey Time Zone UTC-10
+X X-ray Time Zone UTC-11
+Y Yankee Time Zone UTC-12
 Z Zulu Time (Coordinated Universal Time) UTC+00
