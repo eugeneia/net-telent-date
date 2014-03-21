@@ -413,15 +413,18 @@
 	     (t nil))))
 
 (defun weekday (string)
+  "Predicate to test if STRING is a valid weekday identifier."
   (and (simple-string-p string)
        (gethash (string-downcase string) *weekday-strings*)))
 
 (defun month (thing)
+  "Predicate to test if THING is a valid month identifier."
   (or (and (simple-string-p thing)
            (gethash (string-downcase thing) *month-strings*))
       (and (integerp thing) (<= 1 thing 12))))
 
 (defun zone (thing)
+  "Predicate to test if THING is a valid time zone identifier."
   (or (and (simple-string-p thing)
            (gethash (string-downcase thing) *zone-strings*))
       (if (integerp thing)
@@ -440,18 +443,23 @@
        (gethash (string-downcase string) *special-strings*)))
 
 (defun secondp (number)
+  "Predicate to test if NUMBER is a valid seconds value."
   (and (integerp number) (<= 0 number 59)))
 
 (defun minute (number)
+  "Predicate to test if NUMBER is a valid minutes value."
   (and (integerp number) (<= 0 number 59)))
 
 (defun hour (number)
+  "Predicate to test if NUMBER is a valid hours value."
   (and (integerp number) (<= 0 number 23)))
 
 (defun day (number)
+  "Predicate to test if NUMBER is a valid day value."
   (and (integerp number) (<= 1 number 31)))
 
 (defun year (number)
+  "Predicate to test if NUMBER is a valid seconds value."
   (and (integerp number)
        (or (<= 0 number 99)
 	   (<= 1900 number))))

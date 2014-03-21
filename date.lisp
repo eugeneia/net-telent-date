@@ -4,7 +4,7 @@
   #("Monday" "Tuesday" "Wednesday" "Thursday" "Friday" "Saturday" "Sunday"))
     
 (defun dayname (stream arg colon-p at-p &optional width (mincol 0) (colinc 1) (minpad 0) (padchar #\Space))
-  "Print the day of the week (0=Sunday) corresponding to ARG on STREAM.  This is intended for embedding in a FORMAT directive: WIDTH governs the number of characters of text printed, MINCOL, COLINC, MINPAD, PADCHAR work as for ~A"
+  "Print the day of the week (0=Sunday) corresponding to ARG on STREAM.  This is intended for embedding in a FORMAT directive: WIDTH governs the number of characters of text printed, MINCOL, COLINC, MINPAD, PADCHAR work as for ~A."
   (let ((daystring (elt *day-names* (mod arg 7))))
     (if (not daystring) (return-from dayname nil))
     (let ((truncate (if width (min width (length daystring)) nil)))
@@ -18,7 +18,7 @@
     "July" "August" "September" "October" "November" "December"))
     
 (defun monthname (stream arg colon-p at-p &optional width (mincol 0) (colinc 1) (minpad 0) (padchar #\Space))
-  "Print the name of the month (1=January) corresponding to ARG on STREAM.  This is intended for embedding in a FORMAT directive: WIDTH governs the number of characters of text printed, MINCOL, COLINC, MINPAD, PADCHAR work as for ~A"
+  "Print the name of the month (1=January) corresponding to ARG on STREAM.  This is intended for embedding in a FORMAT directive: WIDTH governs the number of characters of text printed, MINCOL, COLINC, MINPAD, PADCHAR work as for ~A."
   (let ((monthstring (elt  *month-names* arg)))
     (if (not monthstring) (return-from monthname nil))
     (let ((truncate (if width (min width (length monthstring)) nil)))
@@ -35,7 +35,7 @@
 ;;; for historical reasons
 
 (defmacro with-date (utime zone &body body)
-  "UTIME is a universal-time, ZONE is a number of hours offset from UTC, or NIL to use local time.  Execute BODY in an environment where SECOND MINUTE HOUR DAY-OF-MONTH MONTH YEAR DAY-OF-WEEK DAYLIGHT-P ZONE are bound to the decoded components of the universal time"
+  "UTIME is a universal-time, ZONE is a number of hours offset from UTC, or NIL to use local time.  Execute BODY in an environment where SECOND MINUTE HOUR DAY-OF-MONTH MONTH YEAR DAY-OF-WEEK DAYLIGHT-P ZONE are bound to the decoded components of the universal time."
   `(multiple-value-bind
     (second minute hour day-of-month month year day-of-week daylight-p zone)
     (decode-universal-time ,utime  ,@(if zone (list zone)))
@@ -43,7 +43,7 @@
     ,@body))
 
 (defmacro with-decoding ((utime &optional zone) &body body)
-  "UTIME is a universal-time, ZONE is a number of hours offset from UTC, or NIL to use local time.  Execute BODY in an environment where SECOND MINUTE HOUR DAY-OF-MONTH MONTH YEAR DAY-OF-WEEK DAYLIGHT-P ZONE are bound to the decoded components of the universal time"
+  "UTIME is a universal-time, ZONE is a number of hours offset from UTC, or NIL to use local time.  Execute BODY in an environment where SECOND MINUTE HOUR DAY-OF-MONTH MONTH YEAR DAY-OF-WEEK DAYLIGHT-P ZONE are bound to the decoded components of the universal time."
   `(multiple-value-bind
     (second minute hour day-of-month month year day-of-week daylight-p zone)
     (decode-universal-time ,utime ,@(if zone (list zone)))
@@ -51,6 +51,9 @@
     ,@body))
 
 (defun decode-universal-time/plist (utime &optional zone)
+  "Convert UTIME in ZONE to a property list containing the keys :SECOND, :MINUTE,
+:HOUR, :DAY, :DAY-OF-MONTH, :MONTH, :YEAR, :WEEKDAY, :DAY-OF-WEEK,
+:WEEKDAY-NAME, :MONTH-NAME, :DAYLIGHT-P and :ZONE. "
   (multiple-value-bind (s m h d month y wd d-p zone)
       (decode-universal-time utime zone)
     (list :second s :minute m :hour h
@@ -61,7 +64,7 @@
 	  :daylight-p d-p :zone zone)))
 
 (defun universal-time-to-http-date (utime)
-  "Decode the universal time UTIME and return a date suitable for use in HTTP 1.0 applications (RFC-822, but GMT)"
+  "Decode the universal time UTIME and return a date suitable for use in HTTP 1.0 applications (RFC-822, but GMT)."
   (declare (optimize (speed 3)))
   (with-date
       utime 0
