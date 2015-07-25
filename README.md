@@ -2,6 +2,9 @@
 
 **Description:**
 
+*This library is deprecated! I recommend not using it in new projects and
+use other Common Lisp date/time libraries instead.*
+
 *net-telent-date* is a date and time parsing and formatting library
 originally written by Jim Healy for
 [CMUCL](http://www.cons.org/cmucl/). It was later packaged and
@@ -15,7 +18,3 @@ In this repository bugs related to parsing time zones were fixed, a big
 table of recognized time zone identifiers was added and the code base was
 tidied up. The current version is
 [0.43](https://github.com/eugeneia/net-telent-date/releases/tag/0.43).
-
-**Documentation:**
-
-* [API documentation](http://mr.gy/maintenance/net-telent-date/api.html)
